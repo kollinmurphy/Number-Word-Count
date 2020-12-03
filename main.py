@@ -58,18 +58,64 @@ def chain(num, minToPrint):
         name, nameLength = getName(num)
         strToPrint += str(num) + " = " + name + " (" + str(nameLength) + " letters)\n"
         num = nameLength
-    print(strToPrint + "\n")
+    if length >= minToPrint:
+        print(strToPrint)
     return length
 
+def searchChains(length, start, end):
+    for i in range(start, end + 1):
+        chain(i, length)
+
+def findNumbersOfGivenLength(length, start, end):
+    for i in range(start, end + 1):
+        name, nameLength = getName(i)
+        if nameLength == length:
+            print(str(i) + " = " + name + " (" + str(nameLength) + " letters)")
+
 def main():
-    for i in range(1,500):
-        if chain(i, 7) >= 7:
+    print("Hello! Welcome to the Number Word Length program.")
+    while True:
+        print()
+        print("1) Print all chains")
+        print("2) Search for chains of a given length")
+        print("3) Find numbers of a given length")
+        print("4) Exit")
+        choice = input("What would you like to do? ")
+
+        if not choice.isdigit(): # validate input
+            continue
+        choice = eval(choice)
+
+        if choice == 1:
+            start, end = askForBounds()
+            print()
+            searchChains(0, start, end)
+        elif choice == 2:
+            start, end = askForBounds()
+            while True:
+                search = input("What minimum length of chain do you want to search for? ")
+                if search.isdigit():
+                    break
+            print()
+            searchChains(eval(search), start, end)
+        elif choice == 3:
+            start, end = askForBounds()
+            while True:
+                search = input("What word length do you want to search for? ")
+                if search.isdigit():
+                    break
+            print()
+            findNumbersOfGivenLength(eval(search), start, end)
+        elif choice == 4:
             break
 
-def findWordsOfLetter():
-    i = 3
-    name, nameLength = getName(i)
-    print(nameLength)
-    print(name)
+def askForBounds():
+    while True:
+        print()
+        lower = input("What number do you want to start from? ")
+        upper = input("What number do you want to end on? ")
+        if lower.isdigit() and upper.isdigit():
+            break
+    return eval(lower), eval(upper)
 
-chain(323, 0)
+main()
